@@ -1,0 +1,216 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Transaction Api Documentation",
+    "version" : "1.0",
+    "title" : "Transaction Api Documentation",
+    "termsOfService" : "urn:tos",
+    "contact" : {
+      "name" : "example@example.com"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0"
+    }
+  },
+  "host" : "localhost:8080",
+  "basePath" : "/v1",
+  "tags" : [ {
+    "name" : "transaction-controller",
+    "description" : "Transaction Controller"
+  }, {
+    "name" : "account-controller",
+    "description" : "Account Controller"
+  } ],
+  "paths" : {
+    "/transactions" : {
+      "post" : {
+        "tags" : [ "transaction-controller" ],
+        "summary" : "createTransaction",
+        "operationId" : "createTransaction",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "*/*" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "request",
+          "description" : "request",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/CreateTransactionRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/CreateTransactionResponse"
+            }
+          }
+        },
+        "x-contentType" : "application/json",
+        "x-accepts" : "*/*"
+      }
+    },
+    "/accounts" : {
+      "post" : {
+        "tags" : [ "account-controller" ],
+        "summary" : "createAccount",
+        "operationId" : "createAccount",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "*/*" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "request",
+          "description" : "request",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/CreateAccountRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/CreateAccountResponse"
+            }
+          }
+        },
+        "x-contentType" : "application/json",
+        "x-accepts" : "*/*"
+      }
+    },
+    "/accounts/{accountId}" : {
+      "get" : {
+        "tags" : [ "account-controller" ],
+        "summary" : "get",
+        "operationId" : "getAccount",
+        "consumes" : [ "*/*" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "accountId",
+          "in" : "path",
+          "description" : "accountId",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/GetAccountResponse"
+            }
+          }
+        },
+        "x-contentType" : "application/json",
+        "x-accepts" : "*/*"
+      }
+    },
+    "/accounts/{accountId}/transactions" : {
+      "get" : {
+        "tags" : [ "account-controller" ],
+        "summary" : "getTransactionsForAccount",
+        "operationId" : "getTransactionsForAccount",
+        "consumes" : [ "*/*" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "accountId",
+          "in" : "path",
+          "description" : "accountId",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/AccountTransactionInfo"
+              }
+            }
+          }
+        },
+        "x-contentType" : "application/json",
+        "x-accepts" : "*/*"
+      }
+    }
+  },
+  "definitions" : {
+    "CreateTransactionRequest" : {
+      "properties" : {
+        "transactionId" : {
+           "type" : "string"
+        },
+        "amount" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "toAccountId" : {
+          "type" : "string"
+        },
+        "fromAccountId" : {
+          "type" : "string"
+        }
+      }
+    },
+    "CreateTransactionResponse" : {
+      "properties" : {
+        "transactionId" : {
+          "type" : "string"
+        }
+      }
+    },
+    "CreateAccountRequest" : {
+      "properties" : {
+        "accountId" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "initialBalance" : {
+          "type" : "number",
+          "format" : "double"
+        }
+      }
+    },
+    "CreateAccountResponse" : {
+      "properties" : {
+        "accountId" : {
+          "type" : "string"
+        }
+      }
+    },
+    "GetAccountResponse" : {
+      "properties" : {
+        "accountId" : {
+          "type" : "string"
+        },
+        "balance" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "description" : {
+          "type" : "string"
+        }
+      }
+    },
+    "AccountTransactionInfo" : {
+      "properties" : {
+        "amount" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "fromAccountId" : {
+          "type" : "string"
+        },
+        "toAccountId" : {
+          "type" : "string"
+        },
+        "transactionId" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}
