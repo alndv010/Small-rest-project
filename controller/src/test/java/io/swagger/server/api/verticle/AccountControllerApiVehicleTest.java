@@ -1,5 +1,6 @@
 package io.swagger.server.api.verticle;
 
+import io.swagger.server.api.MainApiException;
 import io.vertx.ext.unit.TestContext;
 import model.CreateAccountRequest;
 import model.CreateAccountResponse;
@@ -14,13 +15,13 @@ import org.junit.runner.RunWith;
  */
 @RunWith(VertxUnitRunner.class)
 public class AccountControllerApiVehicleTest extends ControllerVehicleTest {
-
+    RequestControllerUtils requestUtils = new RequestControllerUtils();
 
     @Test(timeout = 2000)
-    public void create_new_account(TestContext context) {
-        CreateAccountRequest createAccountRequest = ObjectFactory.getCreateAccountRequest(3);
-        CreateAccountResponse createAccountResponse = createAccountResponse(createAccountRequest);
-        GetAccountResponse getAccountResponse = getAccountResponse(createAccountResponse.getAccountId());
+    public void create_new_account(TestContext context) throws MainApiException {
+        CreateAccountRequest createAccountRequest = ObjectFactory.newCreateAccountRequest.apply(3d);
+        CreateAccountResponse createAccountResponse = requestUtils.createAccountResponse(createAccountRequest);
+        GetAccountResponse getAccountResponse = requestUtils.getAccountResponse(createAccountResponse.getAccountId());
         context.assertEquals(getAccountResponse.getAccountId(), createAccountRequest.getAccountId());
         context.assertEquals(getAccountResponse.getBalance(), createAccountRequest.getInitialBalance());
     }
