@@ -10,7 +10,6 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 
-import java.util.UUID;
 
 /**
  * Created by remote on 7/17/17.
@@ -31,8 +30,7 @@ public class TransactionControllerApiImpl implements TransactionControllerApi {
         try {
             transactionInfoService.createTransactionInfo(transactionInfoData);
             handler.handle(Future.succeededFuture(new CreateTransactionResponse(transactionInfoData.getTransactionInfoId())));
-        } catch (NotEnoughMoneyToTransfer|AccountNotFound
-                |NegativeAmountMoneyToTransfer|FromAndToAccountsCoincide transferError) {
+        } catch (NotEnoughMoneyToTransfer|AccountNotFound |NegativeAmountMoneyToTransfer|FromAndToAccountsCoincide transferError) {
             log.warn(transferError);
             handler.handle(Future.failedFuture(transferError));
         }

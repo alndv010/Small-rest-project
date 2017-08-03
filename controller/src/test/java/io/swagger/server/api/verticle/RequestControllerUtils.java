@@ -1,6 +1,11 @@
 package io.swagger.server.api.verticle;
 
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.name.Named;
 import io.swagger.server.api.MainApiException;
+import io.swagger.server.api.MainModule;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonArray;
@@ -13,19 +18,31 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-import static io.swagger.server.api.MainApiVerticle.PORT;
 
 /**
  * Created by remote on 7/31/17.
  */
 public class RequestControllerUtils {
     private Vertx vertx = Vertx.vertx();
-    private String HOST = "localhost";
     private String prefix = "/v1";
+
+    @Inject
+    @Named("port")
+    private int port;
+
+    @Inject
+    @Named("server_host")
+    private String host;
+
+
+    public RequestControllerUtils() {
+        Injector injector = Guice.createInjector(new MainModule());
+        injector.injectMembers(this);
+    }
 
     public GetAccountResponse getAccountResponse(String accountId) throws MainApiException {
         CompletableFuture<GetAccountResponse> callFuture = new CompletableFuture<>();
-        WebClient.create(vertx).get(PORT, HOST, prefix + "/accounts/" + accountId).send(ar -> {
+        WebClient.create(vertx).get(port, host, prefix + "/accounts/" + accountId).send(ar -> {
             final GetAccountResponse getAccountResponse;
             if (ar.succeeded()) {
                 try {
@@ -44,7 +61,7 @@ public class RequestControllerUtils {
 
     public CreateAccountResponse createAccountResponse(CreateAccountRequest createAccountRequest) throws MainApiException {
         CompletableFuture<CreateAccountResponse> callFuture = new CompletableFuture<>();
-        WebClient.create(vertx).post(PORT, HOST, prefix + "/accounts")
+        WebClient.create(vertx).post(port, host, prefix + "/accounts")
                 .sendJson(createAccountRequest, ar -> {
                     final CreateAccountResponse createAccountResponse;
                     if (ar.succeeded()) {
@@ -60,7 +77,7 @@ public class RequestControllerUtils {
 
     public List<AccountTransactionInfo> getTransactionInfoList(String accountId) throws MainApiException {
         CompletableFuture<List<AccountTransactionInfo>> callFuture = new CompletableFuture<>();
-        WebClient.create(vertx).get(PORT, HOST, prefix + "/accounts/" + accountId + "/transactions").send(response -> {
+        WebClient.create(vertx).get(port, host, prefix + "/accounts/" + accountId + "/transactions").send(response -> {
             List<AccountTransactionInfo> transactionInfoList = new ArrayList<>();
             if (response.succeeded()) {
                 JsonArray jsonArray = response.result().bodyAsJsonArray();
@@ -83,7 +100,7 @@ public class RequestControllerUtils {
 
     public CreateAccountResponse createAccountResponse(CreateAccountResponse accountResponse) throws MainApiException {
         CompletableFuture<CreateAccountResponse> callFuture = new CompletableFuture<>();
-        WebClient.create(vertx).post(PORT, HOST, prefix + "/accounts")
+        WebClient.create(vertx).post(port, host, prefix + "/accounts")
                 .sendJson(accountResponse, ar -> {
                     final CreateAccountResponse createAccountResponse;
                     if (ar.succeeded()) {
@@ -98,7 +115,7 @@ public class RequestControllerUtils {
 
     public CreateTransactionResponse createTransactionRequest(CreateTransactionRequest accountResponse) throws MainApiException {
         CompletableFuture<CreateTransactionResponse> callFuture = new CompletableFuture<>();
-        WebClient.create(vertx).post(PORT, HOST, prefix + "/transactions")
+        WebClient.create(vertx).post(port, host, prefix + "/transactions")
                 .sendJson(accountResponse, ar -> {
                     final CreateTransactionResponse createTransactionResponse;
                     if (ar.succeeded()) {

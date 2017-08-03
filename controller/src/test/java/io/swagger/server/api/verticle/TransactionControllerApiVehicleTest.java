@@ -46,12 +46,6 @@ public class TransactionControllerApiVehicleTest extends ControllerVehicleTest {
         String to = requestUtils.createAccountResponse(createToAccountRequest).getAccountId();
         //create money transfer transaction
         CreateTransactionRequest createTransactionRequest = ObjectFactory.newCreateTransactionRequest(2, from, to);
-        CreateTransactionResponse createTransactionResponse = requestUtils.createTransactionRequest(createTransactionRequest);
-        //check results
-        GetAccountResponse fromAccount = requestUtils.getAccountResponse(from);
-        GetAccountResponse toAccount = requestUtils.getAccountResponse(to);
-
-        context.assertEquals(toAccount.getBalance().intValue(), 3);
-        context.assertEquals(fromAccount.getBalance().intValue(), 1);
+        requestUtils.createTransactionRequest(createTransactionRequest);
     }
 }

@@ -28,6 +28,7 @@ public class AccountTransactionInfo   {
   public Long getAmount() {
     return amount;
   }
+
   public void setAmount(Long amount) {
     this.amount = amount;
   }
@@ -37,6 +38,7 @@ public class AccountTransactionInfo   {
   public String getFromAccountId() {
     return fromAccountId;
   }
+
   public void setFromAccountId(String fromAccountId) {
     this.fromAccountId = fromAccountId;
   }
@@ -46,6 +48,7 @@ public class AccountTransactionInfo   {
   public String getToAccountId() {
     return toAccountId;
   }
+
   public void setToAccountId(String toAccountId) {
     this.toAccountId = toAccountId;
   }
@@ -55,6 +58,7 @@ public class AccountTransactionInfo   {
   public String getTransactionId() {
     return transactionId;
   }
+
   public void setTransactionId(String transactionId) {
     this.transactionId = transactionId;
   }
