@@ -4,8 +4,8 @@ import com.example.dao.TransactionInfoDAO;
 import com.example.model.AccountData;
 import com.example.model.TransactionInfoData;
 import com.google.inject.Inject;
-import com.google.inject.persist.Transactional;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
@@ -20,7 +20,7 @@ public class TransactionInfoService {
     @Inject
     private AccountService accountService;
 
-    @Transactional()
+    @Transactional
     public void createTransactionInfo(TransactionInfoData transactionInfoData)
             throws NotEnoughMoneyToTransfer, NegativeAmountMoneyToTransfer, AccountNotFound, FromAndToAccountsCoincide {
         if (transactionInfoData.getTransactionInfoId() == null) {

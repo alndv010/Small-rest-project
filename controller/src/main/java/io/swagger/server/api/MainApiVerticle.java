@@ -1,7 +1,6 @@
 package io.swagger.server.api;
 
 import java.nio.charset.Charset;
-import java.util.function.BiConsumer;
 
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.github.phiz71.vertx.swagger.router.OperationIdServiceIdResolver;
@@ -11,7 +10,6 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.name.Named;
-import com.yammer.dropwizard.db.DatabaseConfiguration;
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
 import io.swagger.server.api.verticle.AccountControllerApiVerticle;
@@ -34,7 +32,6 @@ public class MainApiVerticle extends AbstractVerticle {
     public MainApiVerticle(){
         MainModule mainModule = new MainModule();
         Injector injector = Guice.createInjector(mainModule);
-        injector.injectMembers(mainModule);
         injector.injectMembers(this);
     }
 

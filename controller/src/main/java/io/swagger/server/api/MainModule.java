@@ -1,23 +1,22 @@
 package io.swagger.server.api;
 
-import com.adamlewis.guice.persist.jooq.JooqPersistModule;
 import com.example.AccountService;
 import com.example.TransactionInfoService;
 import com.example.dao.AccountDAO;
 import com.example.dao.TransactionInfoDAO;
-import com.google.inject.AbstractModule;
-import com.google.inject.Inject;
-import com.google.inject.Provides;
+import com.google.inject.*;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
-import com.yammer.dropwizard.db.DatabaseConfiguration;
-import com.yammer.dropwizard.db.ManagedDataSource;
-import com.yammer.dropwizard.db.ManagedDataSourceFactory;
+import com.hubspot.guice.transactional.TransactionalDataSource;
+import com.hubspot.guice.transactional.TransactionalModule;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import io.swagger.server.api.verticle.*;
 import lombok.extern.log4j.Log4j2;
 import org.jooq.Configuration;
+import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
-import org.jooq.impl.DefaultConfiguration;
+import org.jooq.impl.*;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -31,25 +30,17 @@ import java.util.Properties;
 @Log4j2
 public class MainModule extends AbstractModule {
 
-    @Inject
-    @Named("db.username")
-    private String user;
-
-    @Inject
-    @Named("db.url")
-    private String url;
-
     @Override
     protected void configure() {
-        install(new JooqPersistModule());
-        bind(DataSource.class).to(ManagedDataSource.class);
+        loadPropertyFile();
+        install(new TransactionalModule());
+        bind(DataSource.class).toProvider(DataSourceProvider.class).in(Scopes.SINGLETON);
         bind(TransactionInfoService.class);
         bind(AccountService.class);
         bind(AccountDAO.class);
         bind(TransactionInfoDAO.class);
         bind(TransactionControllerApi.class).to(TransactionControllerApiImpl.class);
         bind(AccountControllerApi.class).to(AccountControllerApiImpl.class);
-        loadPropertyFile();
     }
 
     private void loadPropertyFile() {
@@ -64,19 +55,25 @@ public class MainModule extends AbstractModule {
         Names.bindProperties(binder(), props);
     }
 
-    @Provides
-    private DatabaseConfiguration getDatabaseConfiguration() {
-        DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration();
-        databaseConfiguration.setDriverClass(org.h2.Driver.class.getCanonicalName());
-        databaseConfiguration.setUser(user);
-        databaseConfiguration.setUrl(url);
-        return databaseConfiguration;
-    }
+    static public class DataSourceProvider implements Provider<DataSource> {
+        final private String user;
+        final private String url;
 
+        @Inject
+        public DataSourceProvider(@Named("db.username") String user,
+                                  @Named("db.url") String url) {
+            this.user = user;
+            this.url = url;
+        }
 
-    @Provides
-    ManagedDataSource dataSource(final ManagedDataSourceFactory factory, final DatabaseConfiguration configuration) throws ClassNotFoundException {
-        return factory.build(configuration);
+        @Override
+        public DataSource get() {
+            HikariConfig config = new HikariConfig();
+            config.setDriverClassName(org.h2.Driver.class.getCanonicalName());
+            config.setJdbcUrl(url);
+            config.setUsername(user);
+            return new TransactionalDataSource(new HikariDataSource(config));
+        }
     }
 
     @Provides
@@ -89,5 +86,10 @@ public class MainModule extends AbstractModule {
         return new DefaultConfiguration()
                 .set(dataSource)
                 .set(dialect);
+    }
+
+    @Provides
+    public DSLContext dslContext(Configuration configuration) {
+        return new DefaultDSLContext(configuration);
     }
 }
