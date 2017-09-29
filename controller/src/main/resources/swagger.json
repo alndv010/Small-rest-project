@@ -40,8 +40,8 @@
           }
         } ],
         "responses" : {
-          "200" : {
-            "description" : "OK",
+          "201" : {
+            "description" : "CREATED",
             "schema" : {
               "$ref" : "#/definitions/CreateTransactionResponse"
             }
@@ -68,8 +68,8 @@
           }
         } ],
         "responses" : {
-          "200" : {
-            "description" : "OK",
+          "201" : {
+            "description" : "CREATED",
             "schema" : {
               "$ref" : "#/definitions/CreateAccountResponse"
             }

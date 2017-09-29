@@ -12,8 +12,8 @@ import com.google.inject.Injector;
 import com.google.inject.name.Named;
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
-import io.swagger.server.api.verticle.AccountControllerApiVerticle;
-import io.swagger.server.api.verticle.TransactionControllerApiVerticle;
+import io.swagger.server.api.verticle.account.AccountControllerApiVerticle;
+import io.swagger.server.api.verticle.transaction.TransactionControllerApiVerticle;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
@@ -62,16 +62,12 @@ public class MainApiVerticle extends AbstractVerticle {
         });
     }
 
-    public void deployVerticles(Future<Void> startFuture) {
+    private void deployVerticles(Future<Void> startFuture) {
+        vertx.deployVerticle(accountControllerApiVerticle,
+                res -> processDeployStatus(startFuture, res, accountControllerApiVerticle.getClass()));
         
-        vertx.deployVerticle(accountControllerApiVerticle, res -> {
-            processDeployStatus(startFuture, res, accountControllerApiVerticle.getClass());
-        });
-        
-        vertx.deployVerticle(transactionControllerApiVerticle, res -> {
-            processDeployStatus(startFuture, res, transactionControllerApiVerticle.getClass());
-        });
-        
+        vertx.deployVerticle(transactionControllerApiVerticle,
+                res -> processDeployStatus(startFuture, res, transactionControllerApiVerticle.getClass()));
     }
 
     private void processDeployStatus(Future<Void> startFuture, AsyncResult<String> res, Class vertClass) {

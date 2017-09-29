@@ -2,8 +2,8 @@ package io.swagger.server.api;
 
 import com.example.AccountService;
 import com.example.TransactionInfoService;
-import com.example.dao.AccountDAO;
-import com.example.dao.TransactionInfoDAO;
+import com.example.repository.AccountRepository;
+import com.example.repository.TransactionInfoRepository;
 import com.google.inject.*;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
@@ -11,7 +11,10 @@ import com.hubspot.guice.transactional.TransactionalDataSource;
 import com.hubspot.guice.transactional.TransactionalModule;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import io.swagger.server.api.verticle.*;
+import io.swagger.server.api.verticle.account.AccountControllerApi;
+import io.swagger.server.api.verticle.account.AccountControllerApiImpl;
+import io.swagger.server.api.verticle.transaction.TransactionControllerApi;
+import io.swagger.server.api.verticle.transaction.TransactionControllerApiImpl;
 import lombok.extern.log4j.Log4j2;
 import org.jooq.Configuration;
 import org.jooq.DSLContext;
@@ -37,8 +40,8 @@ public class MainModule extends AbstractModule {
         bind(DataSource.class).toProvider(DataSourceProvider.class).in(Scopes.SINGLETON);
         bind(TransactionInfoService.class);
         bind(AccountService.class);
-        bind(AccountDAO.class);
-        bind(TransactionInfoDAO.class);
+        bind(AccountRepository.class);
+        bind(TransactionInfoRepository.class);
         bind(TransactionControllerApi.class).to(TransactionControllerApiImpl.class);
         bind(AccountControllerApi.class).to(AccountControllerApiImpl.class);
     }

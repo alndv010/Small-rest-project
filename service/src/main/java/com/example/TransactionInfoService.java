@@ -1,6 +1,10 @@
 package com.example;
 
-import com.example.dao.TransactionInfoDAO;
+import com.example.exception.AccountNotFound;
+import com.example.exception.FromAndToAccountsCoincide;
+import com.example.exception.NegativeAmountMoneyToTransfer;
+import com.example.exception.NotEnoughMoneyToTransfer;
+import com.example.repository.TransactionInfoRepository;
 import com.example.model.AccountData;
 import com.example.model.TransactionInfoData;
 import com.google.inject.Inject;
@@ -15,7 +19,7 @@ import java.util.UUID;
  */
 public class TransactionInfoService {
     @Inject
-    private TransactionInfoDAO transactionInfoDAO;
+    private TransactionInfoRepository transactionInfoRepository;
 
     @Inject
     private AccountService accountService;
@@ -42,7 +46,7 @@ public class TransactionInfoService {
         from.setBalance(fromAccountBalance.doubleValue());
         to.setBalance(toAccountBalance.doubleValue());
         //saving results
-        transactionInfoDAO.insert(transactionInfoData);
+        transactionInfoRepository.insert(transactionInfoData);
         accountService.updateAccount(from);
         accountService.updateAccount(to);
     }
@@ -58,7 +62,7 @@ public class TransactionInfoService {
     }
 
     public List<TransactionInfoData> getAccountTransactionInfos(String accountId){
-        return transactionInfoDAO.getAccountTransactionInfos(accountId);
+        return transactionInfoRepository.getAccountTransactionInfos(accountId);
     }
 
 

@@ -1,6 +1,7 @@
 package com.example;
 
-import com.example.dao.AccountDAO;
+import com.example.exception.AccountNotFound;
+import com.example.repository.AccountRepository;
 import com.example.model.AccountData;
 import com.google.inject.Inject;
 
@@ -12,10 +13,10 @@ import java.util.UUID;
  */
 public class AccountService {
     @Inject
-    private AccountDAO accountDAO;
+    private AccountRepository accountRepository;
 
     public AccountData getAccount(String accountId) throws AccountNotFound {
-        AccountData accountData = accountDAO.findById(accountId);
+        AccountData accountData = accountRepository.findById(accountId);
         if (accountData == null) {
             throw new AccountNotFound(accountId);
         }
@@ -26,10 +27,10 @@ public class AccountService {
         if (accountRecord.getAccountId() == null) {
             accountRecord.setAccountId(UUID.randomUUID().toString());
         }
-        accountDAO.insert(accountRecord);
+        accountRepository.insert(accountRecord);
     }
 
     public void updateAccount(AccountData accountRecord){
-        accountDAO.update(accountRecord);
+        accountRepository.update(accountRecord);
     }
 }

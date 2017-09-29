@@ -1,4 +1,4 @@
-package io.swagger.server.api.verticle;
+package io.swagger.server.api.verticle.account;
 
 import model.AccountTransactionInfo;
 import model.CreateAccountRequest;

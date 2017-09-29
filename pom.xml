@@ -9,7 +9,7 @@
 
     <modules>
         <module>persistence</module>
-        <module>dao</module>
+        <module>repository</module>
         <module>service</module>
         <module>controller</module>
     </modules>

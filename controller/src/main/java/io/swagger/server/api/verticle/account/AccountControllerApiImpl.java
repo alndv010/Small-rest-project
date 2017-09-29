@@ -1,6 +1,6 @@
-package io.swagger.server.api.verticle;
+package io.swagger.server.api.verticle.account;
 
-import com.example.AccountNotFound;
+import com.example.exception.AccountNotFound;
 import com.example.AccountService;
 import com.example.TransactionInfoService;
 import com.example.model.AccountData;

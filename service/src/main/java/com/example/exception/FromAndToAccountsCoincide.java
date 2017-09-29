@@ -1,4 +1,4 @@
-package com.example;
+package com.example.exception;
 
 import io.swagger.server.api.MainApiException;
 

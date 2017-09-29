@@ -45,31 +45,11 @@
 				<version>1.7.5</version>
 			</dependency>
 
-			<!-- Run Scala tests -->
-			<dependency>
-				<groupId>org.scala-lang</groupId>
-				<artifactId>scala-library</artifactId>
-				<version>${scala.version}</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.scala-lang</groupId>
-				<artifactId>scala-compiler</artifactId>
-				<version>${scala.version}</version>
-				<scope>test</scope>
-			</dependency>
-
 			<!-- Testing -->
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
 				<version>4.11</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.scalatest</groupId>
-				<artifactId>scalatest_2.11</artifactId>
-				<version>2.2.6</version>
 				<scope>test</scope>
 			</dependency>
 		</dependencies>
@@ -179,32 +159,6 @@
 							</configuration>
 						</execution>
 
-						<execution>
-							<id>scala-generator</id>
-							<phase>generate-sources</phase>
-							<goals>
-								<goal>generate</goal>
-							</goals>
-
-							<configuration>
-								<jdbc>
-									<url>${db.url}</url>
-									<user>${db.username}</user>
-								</jdbc>
-								<generator>
-									<name>org.jooq.util.ScalaGenerator</name>
-									<database>
-										<includes>.*</includes>
-										<inputSchema>EXAMPLE</inputSchema>
-										<schemaVersionProvider>SELECT :schema_name || '_' || MAX("version") FROM "schema_version"</schemaVersionProvider>
-									</database>
-									<target>
-										<packageName>org.jooq.example.flyway.s.db.h2</packageName>
-										<directory>target/generated-sources/jooq-h2-scala</directory>
-									</target>
-								</generator>
-							</configuration>
-						</execution>
 					</executions>
 				</plugin>
 			</plugins>

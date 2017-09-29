@@ -1,4 +1,4 @@
-package io.swagger.server.api.verticle;
+package io.swagger.server.api.verticle.transaction;
 
 import model.CreateTransactionRequest;
 import model.CreateTransactionResponse;

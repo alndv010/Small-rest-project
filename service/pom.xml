@@ -16,7 +16,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>example.com</groupId>
-			<artifactId>dao</artifactId>
+			<artifactId>repository</artifactId>
 			<version>${project.version}</version>
 			<exclusions>
 				<exclusion>
