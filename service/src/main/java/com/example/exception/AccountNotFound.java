@@ -1,6 +1,6 @@
 package com.example.exception;
 
-import io.swagger.server.api.MainApiException;
+import com.example.MainApiException;
 import lombok.Getter;
 
 /**
