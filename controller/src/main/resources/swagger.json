@@ -1,9 +1,9 @@
 {
   "swagger" : "2.0",
   "info" : {
-    "description" : "Transaction Api Documentation",
+    "description" : "Transfer Api Documentation",
     "version" : "1.0",
-    "title" : "Transaction Api Documentation",
+    "title" : "Transfer Api Documentation",
     "termsOfService" : "urn:tos",
     "contact" : {
       "name" : "example@example.com"
@@ -16,18 +16,18 @@
   "host" : "localhost:8080",
   "basePath" : "/v1",
   "tags" : [ {
-    "name" : "transaction-controller",
-    "description" : "Transaction Controller"
+    "name" : "transfer-controller",
+    "description" : "Transfer Controller"
   }, {
     "name" : "account-controller",
     "description" : "Account Controller"
   } ],
   "paths" : {
-    "/transactions" : {
+    "/transfers" : {
       "post" : {
-        "tags" : [ "transaction-controller" ],
-        "summary" : "createTransaction",
-        "operationId" : "createTransaction",
+        "tags" : [ "transfer-controller" ],
+        "summary" : "createTransfer",
+        "operationId" : "createTransfer",
         "consumes" : [ "application/json" ],
         "produces" : [ "*/*" ],
         "parameters" : [ {
@@ -36,14 +36,14 @@
           "description" : "request",
           "required" : true,
           "schema" : {
-            "$ref" : "#/definitions/CreateTransactionRequest"
+            "$ref" : "#/definitions/CreateTransferRequest"
           }
         } ],
         "responses" : {
           "201" : {
             "description" : "CREATED",
             "schema" : {
-              "$ref" : "#/definitions/CreateTransactionResponse"
+              "$ref" : "#/definitions/CreateTransferResponse"
             }
           }
         },
@@ -105,11 +105,11 @@
         "x-accepts" : "*/*"
       }
     },
-    "/accounts/{accountId}/transactions" : {
+    "/accounts/{accountId}/transfers" : {
       "get" : {
         "tags" : [ "account-controller" ],
-        "summary" : "getTransactionsForAccount",
-        "operationId" : "getTransactionsForAccount",
+        "summary" : "getTransfersForAccount",
+        "operationId" : "getTransfersForAccount",
         "consumes" : [ "*/*" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -125,7 +125,7 @@
             "schema" : {
               "type" : "array",
               "items" : {
-                "$ref" : "#/definitions/AccountTransactionInfo"
+                "$ref" : "#/definitions/AccountTransferInfo"
               }
             }
           }
@@ -136,9 +136,9 @@
     }
   },
   "definitions" : {
-    "CreateTransactionRequest" : {
+    "CreateTransferRequest" : {
       "properties" : {
-        "transactionId" : {
+        "transferId" : {
            "type" : "string"
         },
         "amount" : {
@@ -153,9 +153,9 @@
         }
       }
     },
-    "CreateTransactionResponse" : {
+    "CreateTransferResponse" : {
       "properties" : {
-        "transactionId" : {
+        "transferId" : {
           "type" : "string"
         }
       }
@@ -195,7 +195,7 @@
         }
       }
     },
-    "AccountTransactionInfo" : {
+    "AccountTransferInfo" : {
       "properties" : {
         "amount" : {
           "type" : "integer",
@@ -207,7 +207,7 @@
         "toAccountId" : {
           "type" : "string"
         },
-        "transactionId" : {
+        "transferId" : {
           "type" : "string"
         }
       }

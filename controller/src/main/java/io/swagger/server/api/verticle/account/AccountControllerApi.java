@@ -1,6 +1,6 @@
 package io.swagger.server.api.verticle.account;
 
-import model.AccountTransactionInfo;
+import model.AccountTransferInfo;
 import model.CreateAccountRequest;
 import model.CreateAccountResponse;
 import model.GetAccountResponse;
@@ -14,7 +14,7 @@ public interface AccountControllerApi  {
 
     void accountsAccountIdGet(String accountId, Handler<AsyncResult<GetAccountResponse>> handler);
 
-    void accountsAccountIdTransactionsGet(String accountId, Handler<AsyncResult<List<AccountTransactionInfo>>> handler);
+    void accountsAccountIdTransfersGet(String accountId, Handler<AsyncResult<List<AccountTransferInfo>>> handler);
 
     void accountsPost(CreateAccountRequest request, Handler<AsyncResult<CreateAccountResponse>> handler);
     

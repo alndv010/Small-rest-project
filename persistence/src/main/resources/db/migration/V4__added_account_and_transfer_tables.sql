@@ -26,25 +26,25 @@ CREATE TABLE example.account_balance_inc (
   CONSTRAINT pk_account_balance_inc PRIMARY KEY (account_id, workflow_id)
 );
 
-CREATE TABLE example.transaction_status (
+CREATE TABLE example.transfer_status (
   name VARCHAR(100) NOT NULL,
   dsc VARCHAR(100),
-  CONSTRAINT pk_transaction_status PRIMARY KEY (name)
+  CONSTRAINT pk_transfer_status PRIMARY KEY (name)
 );
 
 
-CREATE TABLE example.transaction_info (
-  transaction_info_id VARCHAR(100) NOT NULL,
+CREATE TABLE example.transfer_info (
+  transfer_info_id VARCHAR(100) NOT NULL,
   from_account_id VARCHAR(100) NOT NULL,
   to_account_id  VARCHAR(100) NOT NULL,
   amount DECIMAL NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-  transaction_status_name VARCHAR(100)  NULL,
+  transfer_status_name VARCHAR(100)  NULL,
   workflow_id VARCHAR(100) NULL,
   FOREIGN KEY (from_account_id) REFERENCES example.account(account_id),
   FOREIGN KEY (to_account_id) REFERENCES example.account(account_id),
-  FOREIGN KEY (transaction_status_name) REFERENCES example.transaction_status(name),
-  CONSTRAINT pk_transaction_info PRIMARY KEY (transaction_info_id)
+  FOREIGN KEY (transfer_status_name) REFERENCES example.transfer_status(name),
+  CONSTRAINT pk_transfer_info PRIMARY KEY (transfer_info_id)
 );
 
 

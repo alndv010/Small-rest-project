@@ -13,7 +13,7 @@ import com.google.inject.name.Named;
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
 import io.swagger.server.api.verticle.account.AccountControllerApiVerticle;
-import io.swagger.server.api.verticle.transaction.TransactionControllerApiVerticle;
+import io.swagger.server.api.verticle.transfer.TransferControllerApiVerticle;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
@@ -39,7 +39,7 @@ public class MainApiVerticle extends AbstractVerticle {
     private AccountControllerApiVerticle accountControllerApiVerticle;
 
     @Inject
-    private TransactionControllerApiVerticle transactionControllerApiVerticle;
+    private TransferControllerApiVerticle transferControllerApiVerticle;
     
     @Override
     public void start(Future<Void> startFuture) throws Exception {
@@ -66,8 +66,8 @@ public class MainApiVerticle extends AbstractVerticle {
         vertx.deployVerticle(accountControllerApiVerticle,
                 res -> processDeployStatus(startFuture, res, accountControllerApiVerticle.getClass()));
         
-        vertx.deployVerticle(transactionControllerApiVerticle,
-                res -> processDeployStatus(startFuture, res, transactionControllerApiVerticle.getClass()));
+        vertx.deployVerticle(transferControllerApiVerticle,
+                res -> processDeployStatus(startFuture, res, transferControllerApiVerticle.getClass()));
     }
 
     private void processDeployStatus(Future<Void> startFuture, AsyncResult<String> res, Class vertClass) {

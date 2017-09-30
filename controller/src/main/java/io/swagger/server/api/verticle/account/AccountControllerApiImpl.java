@@ -2,11 +2,11 @@ package io.swagger.server.api.verticle.account;
 
 import com.example.exception.AccountNotFound;
 import com.example.AccountService;
-import com.example.TransactionInfoService;
+import com.example.TransferInfoService;
 import com.example.model.AccountData;
-import com.example.model.TransactionInfoData;
+import com.example.model.TransferInfoData;
 import com.google.inject.Inject;
-import model.AccountTransactionInfo;
+import model.AccountTransferInfo;
 import model.CreateAccountRequest;
 import model.CreateAccountResponse;
 import model.GetAccountResponse;
@@ -27,7 +27,7 @@ public class AccountControllerApiImpl implements AccountControllerApi {
     private AccountService accountService;
 
     @Inject
-    private TransactionInfoService transactionInfoService;
+    private TransferInfoService transferInfoService;
 
     @Override
     public void accountsAccountIdGet(String accountId, Handler<AsyncResult<GetAccountResponse>> handler) {
@@ -42,18 +42,18 @@ public class AccountControllerApiImpl implements AccountControllerApi {
     }
 
     @Override
-    public void accountsAccountIdTransactionsGet(String accountId, Handler<AsyncResult<List<AccountTransactionInfo>>> handler) {
-        List<TransactionInfoData> transactionInfoDataList = transactionInfoService.getAccountTransactionInfos(accountId);
-        List<AccountTransactionInfo> transactionInfos = new ArrayList<>();
-        for (TransactionInfoData transactionInfoData : transactionInfoDataList) {
-            AccountTransactionInfo transactionInfo = new AccountTransactionInfo();
-            transactionInfo.setTransactionId(transactionInfoData.getTransactionInfoId());
-            transactionInfo.setFromAccountId(transactionInfoData.getFromAccountId());
-            transactionInfo.setToAccountId(transactionInfoData.getToAccountId());
-            transactionInfo.setAmount(transactionInfoData.getAmount().longValue());
-            transactionInfos.add(transactionInfo);
+    public void accountsAccountIdTransfersGet(String accountId, Handler<AsyncResult<List<AccountTransferInfo>>> handler) {
+        List<TransferInfoData> transferInfoDataList = transferInfoService.getAccountTransferInfos(accountId);
+        List<AccountTransferInfo> transferInfos = new ArrayList<>();
+        for (TransferInfoData transferInfoData : transferInfoDataList) {
+            AccountTransferInfo transferInfo = new AccountTransferInfo();
+            transferInfo.setTransferId(transferInfoData.getTransferInfoId());
+            transferInfo.setFromAccountId(transferInfoData.getFromAccountId());
+            transferInfo.setToAccountId(transferInfoData.getToAccountId());
+            transferInfo.setAmount(transferInfoData.getAmount().longValue());
+            transferInfos.add(transferInfo);
         }
-        handler.handle(Future.succeededFuture(transactionInfos));
+        handler.handle(Future.succeededFuture(transferInfos));
     }
 
     @Override

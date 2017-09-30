@@ -1,4 +1,4 @@
-package io.swagger.server.api.verticle.transaction;
+package io.swagger.server.api.verticle.transfer;
 
 import io.swagger.server.api.verticle.ControllerVehicleTest;
 import io.swagger.server.api.verticle.account.AccountControllerUtils;
@@ -16,9 +16,9 @@ import org.junit.runner.RunWith;
  */
 
 @RunWith(VertxUnitRunner.class)
-public class TransactionControllerApiVehicleTest extends ControllerVehicleTest {
+public class TransferControllerApiVehicleTest extends ControllerVehicleTest {
     private AccountControllerUtils accountRequestUtils = new AccountControllerUtils();
-    private TransactionControllerUtils transactionUtils = new TransactionControllerUtils();
+    private TransferControllerUtils transferUtils = new TransferControllerUtils();
 
     @Test(timeout = 2000)
     public void create_new_money_transfer(TestContext context) throws ApiException {
@@ -27,22 +27,22 @@ public class TransactionControllerApiVehicleTest extends ControllerVehicleTest {
         final String from = accountRequestUtils.createAccountResponse(createFromAccountRequest).getResponse().getAccountId();
         final CreateAccountRequest createToAccountRequest = ObjectFactory.newCreateAccountRequest.apply(5d);
         final String to = accountRequestUtils.createAccountResponse(createToAccountRequest).getResponse().getAccountId();
-        //create money transfer transaction
-        final CreateTransactionRequest createTransactionRequest = ObjectFactory.newCreateTransactionRequest(2, from, to);
-        final Wrapper<CreateTransactionResponse> createTransactionResponse = transactionUtils.createTransactionRequest(createTransactionRequest);
+        //create money transfer transfer
+        final CreateTransferRequest createTransferRequest = ObjectFactory.newCreateTransferRequest(2, from, to);
+        final Wrapper<CreateTransferResponse> createTransferResponse = transferUtils.createTransferRequest(createTransferRequest);
         //check results
         final Wrapper<GetAccountResponse> fromAccount = accountRequestUtils.getAccountResponse(from);
         final Wrapper<GetAccountResponse> toAccount = accountRequestUtils.getAccountResponse(to);
 
-        context.assertEquals(201, createTransactionResponse.getCode());
+        context.assertEquals(201, createTransferResponse.getCode());
         context.assertEquals(200, fromAccount.getCode());
         context.assertEquals(200, toAccount.getCode());
 
         context.assertEquals(1, fromAccount.getResponse().getBalance().intValue());
         context.assertEquals(7, toAccount.getResponse().getBalance().intValue());
 
-        context.assertEquals(createTransactionRequest.getTransactionId(), accountRequestUtils.getTransactionInfoList(from).getResponse().get(0).getTransactionId());
-        context.assertEquals(createTransactionRequest.getTransactionId(), accountRequestUtils.getTransactionInfoList(to).getResponse().get(0).getTransactionId());
+        context.assertEquals(createTransferRequest.getTransferId(), accountRequestUtils.getTransferInfoList(from).getResponse().get(0).getTransferId());
+        context.assertEquals(createTransferRequest.getTransferId(), accountRequestUtils.getTransferInfoList(to).getResponse().get(0).getTransferId());
     }
 
 
@@ -53,10 +53,10 @@ public class TransactionControllerApiVehicleTest extends ControllerVehicleTest {
         final String from = accountRequestUtils.createAccountResponse(createFromAccountRequest).getResponse().getAccountId();
         final CreateAccountRequest createToAccountRequest = ObjectFactory.newCreateAccountRequest.apply(3d);
         final String to = accountRequestUtils.createAccountResponse(createToAccountRequest).getResponse().getAccountId();
-        //create money transfer transaction
-        final CreateTransactionRequest createTransactionRequest = ObjectFactory.newCreateTransactionRequest(2, from, to);
+        //create money transfer transfer
+        final CreateTransferRequest createTransferRequest = ObjectFactory.newCreateTransferRequest(2, from, to);
         try {
-            transactionUtils.createTransactionRequest(createTransactionRequest);
+            transferUtils.createTransferRequest(createTransferRequest);
         } catch (ApiException e) {
             context.assertEquals("NotEnoughMoneyToTransfer", e.getStatusMessage());
             throw e;

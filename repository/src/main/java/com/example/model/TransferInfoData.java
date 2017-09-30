@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TransactionInfoData {
-    private String transactionInfoId;
+public class TransferInfoData {
+    private String transferInfoId;
     private Double amount;
     private String fromAccountId;
     private String toAccountId;

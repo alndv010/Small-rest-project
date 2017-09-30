@@ -3,7 +3,7 @@ package io.swagger.server.api.verticle.account;
 import io.swagger.server.api.verticle.RequestControllerUtils;
 import io.swagger.server.common.ApiException;
 import io.swagger.server.common.Wrapper;
-import model.AccountTransactionInfo;
+import model.AccountTransferInfo;
 import model.CreateAccountRequest;
 import model.CreateAccountResponse;
 import model.GetAccountResponse;
@@ -34,10 +34,10 @@ public class AccountControllerUtils extends RequestControllerUtils {
         return getResponse(callFuture);
     }
 
-    public Wrapper<List<AccountTransactionInfo>> getTransactionInfoList(String accountId) throws ApiException {
-        CompletableFuture<Wrapper<List<AccountTransactionInfo>>> callFuture = new CompletableFuture<>();
-        getWebClient().get(port, host, prefix + "/accounts/" + accountId + "/transactions")
-                .send(ar -> processListResponse(callFuture, ar, AccountTransactionInfo.class));
+    public Wrapper<List<AccountTransferInfo>> getTransferInfoList(String accountId) throws ApiException {
+        CompletableFuture<Wrapper<List<AccountTransferInfo>>> callFuture = new CompletableFuture<>();
+        getWebClient().get(port, host, prefix + "/accounts/" + accountId + "/transfers")
+                .send(ar -> processListResponse(callFuture, ar, AccountTransferInfo.class));
         return getResponse(callFuture);
     }
 

@@ -5,31 +5,30 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonInclude(JsonInclude.Include.NON_NULL) 
-public class AccountTransactionInfo   {
+public class CreateTransferRequest   {
   
-  private Long amount;
+  private Double amount;
   private String fromAccountId;
   private String toAccountId;
-  private String transactionId;
+  private String transferId;
 
-  public AccountTransactionInfo () {
+  public CreateTransferRequest () {
 
   }
 
-  public AccountTransactionInfo (Long amount, String fromAccountId, String toAccountId, String transactionId) {
+  public CreateTransferRequest (Double amount, String fromAccountId, String toAccountId, String transferId) {
     this.amount = amount;
     this.fromAccountId = fromAccountId;
     this.toAccountId = toAccountId;
-    this.transactionId = transactionId;
+    this.transferId = transferId;
   }
 
     
   @JsonProperty("amount")
-  public Long getAmount() {
+  public Double getAmount() {
     return amount;
   }
-
-  public void setAmount(Long amount) {
+  public void setAmount(Double amount) {
     this.amount = amount;
   }
 
@@ -38,7 +37,6 @@ public class AccountTransactionInfo   {
   public String getFromAccountId() {
     return fromAccountId;
   }
-
   public void setFromAccountId(String fromAccountId) {
     this.fromAccountId = fromAccountId;
   }
@@ -48,19 +46,16 @@ public class AccountTransactionInfo   {
   public String getToAccountId() {
     return toAccountId;
   }
-
   public void setToAccountId(String toAccountId) {
     this.toAccountId = toAccountId;
   }
 
-    
-  @JsonProperty("transactionId")
-  public String getTransactionId() {
-    return transactionId;
+  @JsonProperty("transferId")
+  public String getTransferId() {
+    return transferId;
   }
-
-  public void setTransactionId(String transactionId) {
-    this.transactionId = transactionId;
+  public void setTransferId(String transferId) {
+    this.transferId = transferId;
   }
 
 
@@ -72,27 +67,27 @@ public class AccountTransactionInfo   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    AccountTransactionInfo accountTransactionInfo = (AccountTransactionInfo) o;
-    return Objects.equals(amount, accountTransactionInfo.amount) &&
-        Objects.equals(fromAccountId, accountTransactionInfo.fromAccountId) &&
-        Objects.equals(toAccountId, accountTransactionInfo.toAccountId) &&
-        Objects.equals(transactionId, accountTransactionInfo.transactionId);
+    CreateTransferRequest createTransferRequest = (CreateTransferRequest) o;
+    return Objects.equals(amount, createTransferRequest.amount) &&
+        Objects.equals(fromAccountId, createTransferRequest.fromAccountId) &&
+        Objects.equals(toAccountId, createTransferRequest.toAccountId) &&
+        Objects.equals(transferId, createTransferRequest.transferId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(amount, fromAccountId, toAccountId, transactionId);
+    return Objects.hash(amount, fromAccountId, toAccountId, transferId);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class AccountTransactionInfo {\n");
+    sb.append("class CreateTransferRequest {\n");
     
     sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
     sb.append("    fromAccountId: ").append(toIndentedString(fromAccountId)).append("\n");
     sb.append("    toAccountId: ").append(toIndentedString(toAccountId)).append("\n");
-    sb.append("    transactionId: ").append(toIndentedString(transactionId)).append("\n");
+    sb.append("    transferId: ").append(toIndentedString(transferId)).append("\n");
     sb.append("}");
     return sb.toString();
   }

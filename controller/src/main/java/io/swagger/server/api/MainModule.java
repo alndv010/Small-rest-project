@@ -1,9 +1,9 @@
 package io.swagger.server.api;
 
 import com.example.AccountService;
-import com.example.TransactionInfoService;
+import com.example.TransferInfoService;
 import com.example.repository.AccountRepository;
-import com.example.repository.TransactionInfoRepository;
+import com.example.repository.TransferInfoRepository;
 import com.google.inject.*;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
@@ -13,8 +13,8 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import io.swagger.server.api.verticle.account.AccountControllerApi;
 import io.swagger.server.api.verticle.account.AccountControllerApiImpl;
-import io.swagger.server.api.verticle.transaction.TransactionControllerApi;
-import io.swagger.server.api.verticle.transaction.TransactionControllerApiImpl;
+import io.swagger.server.api.verticle.transfer.TransferControllerApi;
+import io.swagger.server.api.verticle.transfer.TransferControllerApiImpl;
 import lombok.extern.log4j.Log4j2;
 import org.jooq.Configuration;
 import org.jooq.DSLContext;
@@ -38,11 +38,11 @@ public class MainModule extends AbstractModule {
         loadPropertyFile();
         install(new TransactionalModule());
         bind(DataSource.class).toProvider(DataSourceProvider.class).in(Scopes.SINGLETON);
-        bind(TransactionInfoService.class);
+        bind(TransferInfoService.class);
         bind(AccountService.class);
         bind(AccountRepository.class);
-        bind(TransactionInfoRepository.class);
-        bind(TransactionControllerApi.class).to(TransactionControllerApiImpl.class);
+        bind(TransferInfoRepository.class);
+        bind(TransferControllerApi.class).to(TransferControllerApiImpl.class);
         bind(AccountControllerApi.class).to(AccountControllerApiImpl.class);
     }
 

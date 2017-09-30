@@ -5,25 +5,25 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonInclude(JsonInclude.Include.NON_NULL) 
-public class CreateTransactionResponse   {
+public class CreateTransferResponse   {
   
-  private String transactionId;
+  private String transferId;
 
-  public CreateTransactionResponse () {
+  public CreateTransferResponse () {
 
   }
 
-  public CreateTransactionResponse (String transactionId) {
-    this.transactionId = transactionId;
+  public CreateTransferResponse (String transferId) {
+    this.transferId = transferId;
   }
 
     
-  @JsonProperty("transactionId")
-  public String getTransactionId() {
-    return transactionId;
+  @JsonProperty("transferId")
+  public String getTransferId() {
+    return transferId;
   }
-  public void setTransactionId(String transactionId) {
-    this.transactionId = transactionId;
+  public void setTransferId(String transferId) {
+    this.transferId = transferId;
   }
 
 
@@ -35,21 +35,21 @@ public class CreateTransactionResponse   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    CreateTransactionResponse createTransactionResponse = (CreateTransactionResponse) o;
-    return Objects.equals(transactionId, createTransactionResponse.transactionId);
+    CreateTransferResponse createTransferResponse = (CreateTransferResponse) o;
+    return Objects.equals(transferId, createTransferResponse.transferId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(transactionId);
+    return Objects.hash(transferId);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class CreateTransactionResponse {\n");
+    sb.append("class CreateTransferResponse {\n");
     
-    sb.append("    transactionId: ").append(toIndentedString(transactionId)).append("\n");
+    sb.append("    transferId: ").append(toIndentedString(transferId)).append("\n");
     sb.append("}");
     return sb.toString();
   }

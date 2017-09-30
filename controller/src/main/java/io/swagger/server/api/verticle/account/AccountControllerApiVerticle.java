@@ -17,7 +17,7 @@ import static io.swagger.server.api.util.JsonUtil.getJsonParameterFromMessageBod
 @Log4j2
 public class AccountControllerApiVerticle extends AbstractVerticle {
     final static String GET_ACCOUNT = "getAccount";
-    final static String GET_TRANSACTIONS_FOR_ACCOUNT = "getTransactionsForAccount";
+    final static String GET_TRANSFERS_FOR_ACCOUNT = "getTransfersForAccount";
     final static String CREATE_ACCOUNT = "createAccount";
     final static String ACCOUNT_ID = "accountId";
 
@@ -32,10 +32,10 @@ public class AccountControllerApiVerticle extends AbstractVerticle {
                         result -> JsonUtil.processAsyncResult(message, result, GET_ACCOUNT, 200));
         });
 
-        vertx.eventBus().<JsonObject> consumer(GET_TRANSACTIONS_FOR_ACCOUNT).handler(message -> {
+        vertx.eventBus().<JsonObject> consumer(GET_TRANSFERS_FOR_ACCOUNT).handler(message -> {
                 String accountId = message.body().getString(ACCOUNT_ID);
-                service.accountsAccountIdTransactionsGet(accountId,
-                        result -> JsonUtil.processAsyncArrayResult(message, result, GET_TRANSACTIONS_FOR_ACCOUNT));
+                service.accountsAccountIdTransfersGet(accountId,
+                        result -> JsonUtil.processAsyncArrayResult(message, result, GET_TRANSFERS_FOR_ACCOUNT));
         });
 
         vertx.eventBus().<JsonObject> consumer(CREATE_ACCOUNT).handler(message -> {
