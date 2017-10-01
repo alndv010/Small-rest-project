@@ -47,7 +47,7 @@ public class TransferControllerApiVehicleTest extends ControllerVehicleTest {
 
 
     @Test(timeout = 2000, expected = ApiException.class)
-    public void should_not_create_new_money_transfer(TestContext context) throws ApiException {
+    public void not_enough_money_to_transfer(TestContext context) throws ApiException {
         //init new accounts
         final CreateAccountRequest createFromAccountRequest = ObjectFactory.newCreateAccountRequest.apply(1d);
         final String from = accountRequestUtils.createAccountResponse(createFromAccountRequest).getResponse().getAccountId();
@@ -59,6 +59,52 @@ public class TransferControllerApiVehicleTest extends ControllerVehicleTest {
             transferUtils.createTransferRequest(createTransferRequest);
         } catch (ApiException e) {
             context.assertEquals("NotEnoughMoneyToTransfer", e.getStatusMessage());
+            throw e;
+        }
+    }
+
+    @Test(timeout = 2000, expected = ApiException.class)
+    public void transfer_to_the_same_account(TestContext context) throws ApiException {
+        //init new accounts
+        final CreateAccountRequest createFromAccountRequest = ObjectFactory.newCreateAccountRequest.apply(1d);
+        final String from = accountRequestUtils.createAccountResponse(createFromAccountRequest).getResponse().getAccountId();
+        //create money transfer transfer
+        final CreateTransferRequest createTransferRequest = ObjectFactory.newCreateTransferRequest(1, from, from);
+        try {
+            transferUtils.createTransferRequest(createTransferRequest);
+        } catch (ApiException e) {
+            context.assertEquals("FromAndToAccountsCoincide", e.getStatusMessage());
+            throw e;
+        }
+    }
+
+    @Test(timeout = 2000, expected = ApiException.class)
+    public void negative_amount_money_to_transfer(TestContext context) throws ApiException {
+        //init new accounts
+        final CreateAccountRequest createFromAccountRequest = ObjectFactory.newCreateAccountRequest.apply(1d);
+        final String from = accountRequestUtils.createAccountResponse(createFromAccountRequest).getResponse().getAccountId();
+        final CreateAccountRequest createToAccountRequest = ObjectFactory.newCreateAccountRequest.apply(3d);
+        final String to = accountRequestUtils.createAccountResponse(createToAccountRequest).getResponse().getAccountId();
+        //create money transfer transfer
+        final CreateTransferRequest createTransferRequest = ObjectFactory.newCreateTransferRequest(-2, from, to);
+        try {
+            transferUtils.createTransferRequest(createTransferRequest);
+        } catch (ApiException e) {
+            context.assertEquals("NegativeAmountMoneyToTransfer", e.getStatusMessage());
+            throw e;
+        }
+    }
+
+    @Test(timeout = 2000, expected = ApiException.class)
+    public void account_not_found(TestContext context) throws ApiException {
+        final CreateAccountRequest createToAccountRequest = ObjectFactory.newCreateAccountRequest.apply(3d);
+        final String to = accountRequestUtils.createAccountResponse(createToAccountRequest).getResponse().getAccountId();
+        //create money transfer transfer
+        final CreateTransferRequest createTransferRequest = ObjectFactory.newCreateTransferRequest(2, "1000000", to);
+        try {
+            transferUtils.createTransferRequest(createTransferRequest);
+        } catch (ApiException e) {
+            context.assertEquals("AccountNotFound", e.getStatusMessage());
             throw e;
         }
     }
